@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class JwtUtil {
 
-	private static final String SECRET = "mysecretkey_ecommerce_app_2024!!";
+	private static final String SECRET = "fdnqz`5f3itn`fnbzisf3dplf`usq";
 	private static final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
 	public static String generateToken(String email, String role) {
