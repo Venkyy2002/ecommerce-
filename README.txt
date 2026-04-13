@@ -5,11 +5,16 @@ REQUIREMENTS:
 - Any modern browser
 
 Steps to run :-
-1. Open MySQL and run:  mysql -u root -p < database.sql
-2. Open DBConnection.java and update your MySQL password
-3. Drop ecommerce.war into Tomcat/webapps/ folder
-4. Start Tomcat
-5. Open browser → http://localhost:8080/ecommerce/signin.html
+1. Clone the repository:
+   git clone https://github.com/Venkyy2002/ecommerce-.git
+2. Open MySQL and run:
+   mysql -u root -p < database.sql
+3. Open DBConnection.java and update your MySQL password
+4. Import project into Eclipse as existing Java project
+5. Build and export as WAR file
+6. Drop WAR file into Tomcat/webapps/ folder
+7. Start Tomcat
+8. Open browser → http://localhost:8080/ecommerce/signin.html
 
 FEATURES:
 1. Register with email — OTP sent for verification
