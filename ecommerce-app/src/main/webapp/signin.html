@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        #msg {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Login</h2>
+
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+
+    <button onclick="login()">Login</button>
+
+    <p id="message"></p>
+    <p><a href="/ecommerce-app/signup.html">Don't have an account? Register</a></p>
+
+</div>
+
+<script>
+
+function login() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const msg = document.getElementById("message");
+    msg.style.color = "red";
+    msg.innerText = "";
+
+    if (!email || !password) {
+        msg.innerText = "All fields are required";
+        return;
+    }
+
+    if (!email.includes("@")) {
+        msg.innerText = "Invalid email";
+        return;
+    }
+
+    if (password.length < 6) {
+        msg.innerText = "Password must be at least 6 characters";
+        return;
+    }
+
+    fetch("/ecommerce-app/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    })
+    .then(res => res.text())
+    .then(token => {
+        if (token === "USER_NOT_FOUND") {
+            msg.innerText = "User not found";
+        } else if (token === "WRONG_PASSWORD") {
+            msg.innerText = "Incorrect password";
+        } else if (token === "INVALID_EMAIL" || token === "INVALID_PASSWORD") {
+            msg.innerText = "Invalid credentials";
+        } else if (token === "ERROR") {
+            msg.innerText = "Server error, please try again";
+        } else {
+            // Token received — save it and redirect
+            localStorage.setItem("token", token);
+            localStorage.setItem("email", email);
+            msg.style.color = "green";
+            msg.innerText = "Login successful! Redirecting...";
+            setTimeout(() => window.location.href = "/ecommerce-app/home.html", 1000);
+        }
+    })
+    .catch(() => {
+        msg.innerText = "Server error";
+    });
+}
+
+</script>
+
+</body>
+</html>

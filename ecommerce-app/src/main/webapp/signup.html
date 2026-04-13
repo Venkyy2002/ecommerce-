@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+
+<style>
+body {
+	font-family: Arial;
+	background: #f2f2f2;
+}
+
+.container {
+	width: 300px;
+	margin: 80px auto;
+	padding: 20px;
+	background: white;
+	border-radius: 8px;
+	text-align: center;
+}
+
+input {
+	width: 90%;
+	padding: 8px;
+	margin: 8px 0;
+}
+
+button {
+	padding: 8px 15px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+#otpSection {
+	display: none;
+}
+
+#message {
+	color: red;
+	margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<h2>Register</h2>
+
+		<input type="text" id="name" placeholder="Name"><br> <input
+			type="email" id="email" placeholder="Email"><br> <input
+			type="password" id="password" placeholder="Password"><br>
+		<input type="password" id="confirmPassword"
+			placeholder="Confirm Password"><br>
+
+		<button onclick="sendOtp()">Send OTP</button>
+
+		<div id="otpSection">
+			<input type="text" id="otp" placeholder="Enter OTP"><br>
+			<button onclick="register()">Register</button>
+		</div>
+
+		<p id="message"></p>
+
+	</div>
+
+	<script>
+
+function sendOtp() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (!name || !email || !password || !confirmPassword) {
+        document.getElementById("message").innerText = "All fields are required";
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        document.getElementById("message").innerText = "Passwords do not match";
+        return;
+    }
+
+    fetch("/ecommerce-app/signup?action=sendOtp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+    })
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("message").innerText = data;
+        if (data === "OTP_SENT") {
+            document.getElementById("otpSection").style.display = "block";
+        }
+        else 
+        	{
+        	 document.getElementById("otpSection").style.display = "none";
+        	}
+    })
+    .catch(() => {
+        document.getElementById("message").innerText = "Error sending OTP, please try again.";
+    });
+}
+
+function register() {
+    const email = document.getElementById("email").value;
+    const otp = parseInt(document.getElementById("otp").value);
+
+    if (!otp) {
+        document.getElementById("message").innerText = "Enter OTP";
+        return;
+    }
+
+    fetch("/ecommerce-app/signup?action=verifyOtp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp })
+    })
+    .then(res => res.text())
+    .then(data => {
+        const msg = document.getElementById("message");
+        if (data === "SUCCESS") {
+            msg.style.color = "green";
+            msg.innerText = "Registration successful! Redirecting...";
+            setTimeout(() => window.location.href = "/ecommerce-app/signin.html", 1500);
+        } else {
+
+            msg.innerText = data;
+        }
+    })
+    .catch(() => {
+        document.getElementById("message").innerText = "Error verifying OTP, please try again.";
+    });
+}
+</script>
+
+</body>
+</html>
