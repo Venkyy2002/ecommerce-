@@ -23,4 +23,4 @@ FEATURES:
 4. Browse, filter and search products
 5. Add products to cart, adjust quantity, remove items
 6. Place order — saved to database under your account
-7. View your own order history only
+7. View your own order history 
