@@ -6,8 +6,8 @@ import java.util.Properties;
 
 public class EmailUtil {
 
-	private static final String FROM = "use your password";
-	private static final String PASSWORD = "jicd zjmq pzcr qgcp";
+	private static final String FROM = "use your email";
+	private static final String PASSWORD = "use your password";
 
 	public static boolean verifyEmail(String email) {
 		InternetAddress emailAddr;
