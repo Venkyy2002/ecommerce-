@@ -29,8 +29,8 @@ public class CartRepository {
 				ins.setString(1, item.getUserEmail());
 				ins.setInt(2, item.getProductId());
 				ins.setString(3, item.getProductName());
-				ins.setDouble(5, item.getPrice());
-				ins.setInt(6, item.getQuantity());
+				ins.setDouble(4, item.getPrice());
+				ins.setInt(5, item.getQuantity());
 				ins.executeUpdate();
 			}
 		} finally {
