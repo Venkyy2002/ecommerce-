@@ -6,7 +6,6 @@ public class Cart {
 	private String userEmail;
 	private int productId;
 	private String productName;
-	private String emoji;
 	private double price;
 	private int quantity;
 
@@ -40,14 +39,6 @@ public class Cart {
 
 	public void setProductName(String v) {
 		this.productName = v;
-	}
-
-	public String getEmoji() {
-		return emoji;
-	}
-
-	public void setEmoji(String v) {
-		this.emoji = v;
 	}
 
 	public double getPrice() {
